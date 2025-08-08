@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>$WORTHIT - Was It All Worth It?</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            font-family: 'Helvetica Neue', Inter, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 102, 204, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .left-column {
+            flex: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .right-column {
+            flex: 1;
+            text-align: left;
+        }
+
+        .logo-container {
+            margin-bottom: 2em;
+        }
+
+        .logo {
+            max-width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .token-name {
+            font-size: 4em;
+            font-weight: 900;
+            margin-bottom: 0.3em;
+            display: inline-block;
+            padding: 20px 40px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(255, 102, 204, 0.1), rgba(0, 255, 153, 0.1));
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .token-name span {
+            background: linear-gradient(45deg, #ff66cc, #00ff99, #ff66cc);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .token-name::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50px;
+            padding: 2px;
+            background: linear-gradient(45deg, #ff66cc, #00ff99, #ff66cc);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .title {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 1em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .dialogue {
+            font-size: 1.8em;
+            font-weight: 600;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 2em;
+        }
+
+        .dialogue span {
+            display: block;
+            margin-bottom: 0.8em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .dialogue span.typewriter {
+            animation: none;
+            opacity: 1;
+        }
+
+        .dialogue span:nth-child(1) { animation-delay: 0.2s; }
+        .dialogue span:nth-child(2) { animation-delay: 0.4s; }
+        .dialogue span:nth-child(3) { animation-delay: 0.6s; }
+
+        .typewriter-container {
+            min-height: 2em;
+            margin-bottom: 0.8em;
+        }
+
+        .typewriter-cursor {
+            color: #00ff99;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight {
+            color: #00ff99;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 255, 153, 0.5);
+        }
+
+        .sacrifice {
+            color: #ff6b6b;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .hope {
+            color: #4ecdc4;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3em;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-x {
+            background: linear-gradient(45deg, #1da1f2, #0d8bd9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(29, 161, 242, 0.4);
+        }
+
+        .btn-x:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(29, 161, 242, 0.6);
+        }
+
+        .btn-buy {
+            background: linear-gradient(45deg, #00ff99, #00cc7a);
+            color: #000;
+            font-weight: 900;
+            box-shadow: 0 4px 15px rgba(0, 255, 153, 0.4);
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 153, 0.6);
+        }
+
+        .footer {
+            margin-top: 3em;
+            font-size: 1.1em;
+            font-style: italic;
+            opacity: 0.7;
+            color: #888;
+            animation: fadeInUp 0.8s ease-out 1.6s forwards;
+            opacity: 0;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .left-column, .right-column {
+                flex: none;
+                width: 100%;
+            }
+            
+            .right-column {
+                text-align: center;
+            }
+            
+            .token-name { font-size: 3em; }
+            .title { font-size: 2.5em; }
+            .dialogue { font-size: 1.4em; }
+            .buttons { flex-direction: column; align-items: center; }
+            .btn { width: 280px; }
+            
+            .logo {
+                max-width: 250px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="left-column">
+            <div class="logo-container">
+                <img src="image.png" alt="$WORTHIT Logo" class="logo">
+            </div>
+            <div class="token-name pulse"><span>$WORTHIT</span></div>
+            <div class="title">Was It All Worth It?</div>
+        </div>
+        
+        <div class="right-column">
+            <div class="dialogue">
+                <span class="highlight">Hours into charts and threads...</span>
+                <span>Watching numbers dance while life slipped away</span>
+                <span class="sacrifice">Lost her. Lost them. Lost myself.</span>
+                <div class="typewriter-container" id="typewriter1"></div>
+                <div class="typewriter-container" id="typewriter2"></div>
+                <div class="typewriter-container" id="typewriter3"></div>
+                <div class="typewriter-container" id="typewriter4"></div>
+            </div>
+            <div class="buttons">
+                <a href="#" class="btn btn-x">🐦 X Community</a>
+                <a href="#" class="btn btn-buy">🚀 Buy $WORTHIT</a>
+            </div>
+            <div class="footer">
+                — That silence *is* the answer. The journey continues.¨
+                <p>CA: </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Custom typewriter function
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Add blinking cursor after typing is complete
+                    element.innerHTML += '<span class="typewriter-cursor">|</span>';
+                }
+            }
+            
+            type();
+        }
+
+        // Wait for the first three lines to fade in, then start typewriter effects
+        setTimeout(() => {
+            const texts = [
+                '"Just one more trade. One more chance."',
+                'To start a new era. To make dad proud.',
+                'We believed. We sacrificed. We hoped.',
+                'Now it\'s quiet. But maybe...'
+            ];
+            
+            const containers = ['#typewriter1', '#typewriter2', '#typewriter3', '#typewriter4'];
+            
+            // Start first typewriter
+            typeWriter(document.querySelector(containers[0]), texts[0], 50);
+            
+            // Start second typewriter after 3 seconds
+            setTimeout(() => {
+                typeWriter(document.querySelector(containers[1]), texts[1], 50);
+            }, 3000);
+            
+            // Start third typewriter after 6 seconds
+            setTimeout(() => {
+                typeWriter(document.querySelector(containers[2]), texts[2], 50);
+            }, 6000);
+            
+            // Start fourth typewriter after 9 seconds
+            setTimeout(() => {
+                typeWriter(document.querySelector(containers[3]), texts[3], 50);
+            }, 9000);
+            
+        }, 1600); // Start after the first three lines fade in
+    </script>
+</body>
+
+</html>
